@@ -1,0 +1,56 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+using i64=long long;
+using u64=unsigned long long;
+
+template<typename T>
+struct bit {
+    vector<T> a;
+    explicit bit(u64 n) : a(n) {}
+
+    void add(i64 x,T v) {
+        for (i64 i=x;i<a.size();i+=(i&-i)) a[i]+=v; 
+    }
+
+    T query(i64 x) {
+        auto ans=T();
+        for (i64 i=x;i>0;i-=(i&-i)) ans+=a[i];
+        return ans;
+    }
+    
+};
+
+void solve() {
+    i64 n,m;
+    cin>>n>>m;
+    bit<i64> d(n+1),id(n+1);
+
+    i64 z=0;
+    for (i64 i=1;i<=n;i++) {
+        i64 x;
+        cin>>x;
+        d.add(i,x-z);
+        id.add(i,i*(x-z));
+        z=x;
+    }
+
+    while (m--) {
+        i64 c;
+        cin>>c;
+        i64 l,r,x;
+        if (c==1) {
+            cin>>l>>r>>x;
+            d.add(l,x);
+            d.add(r+1,-x);
+            id.add(l,l*x);
+            id.add(r+1,-(r+1)*x);
+        }else {
+            cin>>l>>r;
+            i64 sumr=(r+1)*d.query(r)-id.query(r);
+            i64 suml=(l*d.query(l-1))-id.query(l-1);
+            cout<<sumr-suml<<'\n';
+        }
+    }
+    
+}
