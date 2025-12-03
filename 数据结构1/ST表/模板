@@ -1,0 +1,36 @@
+//用于访问静态区间内的最值，RMQ
+
+#include <bits/stdc++.h>
+using namespace std;
+
+void solve() {
+    int n,m;//元素个数，访问次数
+    cin>>n>>m;
+
+    vector<int> lg(n+1);
+    lg[1]=0;
+    for (int i=2;i<=n;i++) {//i对2取对数，再向下取整
+        lg[i]=lg[i>>1]+1;
+    }
+
+    vector<vector<int>> f(n+1,vector<int>(lg[n]+2));//f[起点][长度]
+    for (int i=1;i<=n;i++) {//st表的初始点数据
+        cin>>f[i][0];
+    }
+
+    //构建st表，类似区间dp
+    for (int j=1;j<=lg[n];j++) {//先枚举区间长度
+        for (int i=1;i<=n-(1<<j)+1;i++) {//再到起点，减的要+1，加的不用
+            f[i][j]=max(f[i][j-1],f[i+(1<<(j-1))][j-1]);//倍增思想
+        }
+    }
+
+    while (m--){
+        //其实我们最想1个区间内搞定，但我们的区间长度是严格限制=2的n次幂
+        int x,y;
+        cin>>x>>y;
+        int len=lg[y-x+1];//向下取整，长度<=我们要的，那只能2个区间了
+        cout<<max(f[x][len],f[y-(1<<len)+1][len])<<'\n';
+    }
+
+}
