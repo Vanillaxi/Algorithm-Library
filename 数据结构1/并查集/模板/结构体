@@ -1,0 +1,39 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+struct DSU {
+    vector<int> fa;
+
+    explicit DSU(int n): fa(n,-1) {}//构造函数，初始化fa
+
+    int find(int x) {
+        return fa[x]<0? x:fa[x]=find(fa[x]);
+    }
+
+    bool same (int x,int y) {
+        return find(x)==find(y);
+    }
+
+    bool merge(int x,int y) {
+        x=find(x),y=find(y);
+        if (x==y) return false;
+        if (fa[x]>fa[y]) swap(x,y);
+        fa[x]+=fa[y],fa[y]=x;
+        return true;
+    }
+    
+};
+
+void solve() {
+    int n;
+    cin>>n;
+    DSU dsu(n+1);//创建对象
+    for (int i=1;i<=n;i++) {
+        int x;
+        cin>>x;
+        dsu.merge(x,i);
+    }
+
+    int r=1,ans;
+    ans=dsu.fa[r];//访问结构体里面的fa数组
+}
