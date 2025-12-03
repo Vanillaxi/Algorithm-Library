@@ -1,0 +1,56 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+using i64 =long long;
+
+constexpr int inf=1e9;
+constexpr i64 inf1=1e18;
+constexpr i64 P =1e9+7;
+constexpr int mxn=5e5;
+
+vector<int> fa;
+
+int find(int x) {
+    if (fa[x]==x) return x;
+    return fa[x]=find(fa[x]);
+}
+
+void solve() {
+    int n,m;
+    cin>>n>>m;
+
+    fa.resize(n+1);
+    for (int i=1;i<=n;i++) {
+        fa[i]=i;
+    }
+
+    vector<int> siz(n+1,1);
+
+    while (m--) {
+        int opt,x,y;
+        cin>>opt>>x>>y;
+        x=fa[x],y=fa[y];
+        if (opt==1) {//合并
+            if (x==y) continue;
+            if (siz[y]<siz[x]) swap(x,y);//合并到y
+            if (siz[x]==siz[y]) siz[y]++;
+            fa[x]=y;
+        }else {//查询
+            if (x==y) cout<<"Y\n";
+            else cout<<"N\n";
+        }
+    }
+
+}
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int t=1;
+    cin >> t;
+    while(t--) {
+        solve();
+    }
+    return 0;
+}
