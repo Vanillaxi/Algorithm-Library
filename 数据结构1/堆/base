@@ -11,12 +11,15 @@ pq.top();
 
 (2)
 优先级比较函数
-struct node  {  int val,rnd;
-bool operator <  (const node &x) const  { return rnd<x.rnd;
-}  //会自动调用 ，大根堆用<,小根堆用> }a [100];
+struct node  {
+    int val,rnd;
+    bool operator <  (const node &x) const  { 
+        return rnd<x.rnd;
+    }  //会自动调用, 大根堆用 <  小根堆用 >
+}a [100];
 
 (3)
 tuple的使用
-最大堆优先队列 ：默认以第一个元素降序排priority_queue<tuple<int,int,int,int> > pq;
+最大堆优先队列 ：默认以第一个元素降序排priority_queue<tuple<int,int,int,int>> pq;
 查询 ：auto[d,p,l,r] = pq.top();
 删除： pq.pop()；
