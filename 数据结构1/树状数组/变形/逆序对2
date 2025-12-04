@@ -1,0 +1,6 @@
+//顺序写法
+
+for (int i=1;i<=n;i++) {
+        a[i]=lower_bound(rk.begin()+1,re.end(),a[i])-rk.begin();
+        tree.update(a[i],1);//因为已插入i-1个数
+    }
