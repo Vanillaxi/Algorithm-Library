@@ -1,0 +1,60 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+using i64 =long long;
+
+constexpr int inf=1e9;
+constexpr i64 inf1=1e18;
+constexpr i64 P =1e9+7;
+constexpr int mxn=5e5;
+
+struct node {
+    int tp,id;
+}p;
+
+void solve() {
+    int n,k;
+    cin>>n>>k;
+
+    deque<node> mn,mx;
+    vector<int> a(n-k+2),b(n-k+2);
+    for (int i=1;i<=n;i++) {
+        int x;
+        cin>>x;
+        p.tp=x,p.id=i;
+
+        while (!mn.empty()&&mn.back().tp>=x) mn.pop_back();
+        while (!mx.empty()&&mx.back().tp<=x) mx.pop_back();
+
+        mn.push_back(p),mx.push_back(p);
+
+        while (!mn.empty()&&mn.front().id<i-k+1) mn.pop_front();
+        while (!mx.empty()&&mx.front().id<i-k+1) mx.pop_front();
+
+        if (i>=k) {
+            a[i-k+1]=mn.front().tp;
+            b[i-k+1]=mx.front().tp;
+        }
+    }
+
+    for (int i=1;i<=n-k+1;i++) {
+        cout<<a[i]<<" \n"[i==n-k+1];
+    }
+
+    for (int i=1;i<=n-k+1;i++) {
+        cout<<b[i]<<" \n"[i==n-k+1];
+    }
+
+}
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int t=1;
+    //cin >> t;
+    while(t--) {
+        solve();
+    }
+    return 0;
+}
